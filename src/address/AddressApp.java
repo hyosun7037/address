@@ -8,7 +8,7 @@ public class AddressApp {
 	public static void main(String[] args) {
 		new MainFrame(); // æ€ Ω√¿€
 
-//	System.out.println(GroupType.values()[0]);
+		//	System.out.println(GroupType.values()[0]);
 
 	}
 }

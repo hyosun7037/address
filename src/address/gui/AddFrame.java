@@ -24,7 +24,7 @@ public class AddFrame extends JFrame {
 	
 	private final static String TAG = "AddFrame: "; // 로그 찍기
 
-	private AddFrame addFrame = this; // 전역으로 빼놓으면 사용가능
+	private AddFrame addFrame; // 전역으로 빼놓으면 사용가능
 	private MainFrame mainFrame;
 	private Container backgoundPanel; // borderLayout으로 만들기
 	private JPanel addPanel; // 추가 패널
@@ -35,6 +35,7 @@ public class AddFrame extends JFrame {
 	private MemberService memberService = MemberService.getInstance(); // 어디서든 쓸 수 있게 전역으로 넣어줌
 
 	public AddFrame(MainFrame mainFrame) {
+		addFrame = this;
 		this.mainFrame = mainFrame;
 		initObject();
 		initDesign();
@@ -90,7 +91,7 @@ public class AddFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				// 1. TextField에 있는 값을 가져옴 / 2. 값을 Member에 담음
-				System.out.println(TAG+"addButton리스너 : " + tfName.getText()); // 로그 찍기
+				System.out.println(TAG + "addButton리스너 : " + tfName.getText()); // 로그 찍기
 				Member member = Member.builder()
 						.name(tfName.getText())
 						.phone(tfPhone.getText())
@@ -112,8 +113,8 @@ public class AddFrame extends JFrame {
 			}
 		});
 
-		// 추가
-		addFrame.addWindowListener(new WindowAdapter() {
+		// 추가 (창을 끄면 메인 프레임이 다시 켜짐)
+		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				mainFrame.setVisible(true);

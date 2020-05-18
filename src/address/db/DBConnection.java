@@ -7,8 +7,7 @@ import org.junit.Test;
 
 // DB ¿¬°á
 public class DBConnection {
-	
-	@Test
+
 	public static Connection getConnection() {
 
 		try {

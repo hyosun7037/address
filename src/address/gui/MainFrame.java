@@ -27,7 +27,7 @@ import address.utils.MyStringParser;
 public class MainFrame extends JFrame {
 
 	private MemberService memberService = MemberService.getInstance();
-	
+
 	private MainFrame mainFrame = this; // this가 mainFrame
 	private Container backGroundPanel; // new 해줄 필요 X
 	private JPanel topPanel, menuPanel, listPanel;
@@ -74,7 +74,7 @@ public class MainFrame extends JFrame {
 	// 데이터 초기화
 	private void initData() {
 		List<Member> members = memberService.전체목록();
-		for(Member member : members) {
+		for (Member member : members) {
 			listModel.addElement(member);
 		}
 	}
@@ -116,13 +116,60 @@ public class MainFrame extends JFrame {
 
 	// 리스너 등록
 	private void initListener() { // 리스트의 항목 클릭하면 창이 뜨도록 설계
+
+		frButton.addActionListener(new ActionListener() { // 타겟
+
+			@Override
+			public void actionPerformed(ActionEvent e) { // 이 부분으로 콜백해줌
+				notifyUserList(GroupType.친구);
+			}
+
+		});
+
+		coButton.addActionListener(new ActionListener() { // 타겟
+
+			@Override
+			public void actionPerformed(ActionEvent e) { // 이 부분으로 콜백해줌
+				notifyUserList(GroupType.회사);
+			}
+
+		});
+
+		faButton.addActionListener(new ActionListener() { // 타겟
+
+			@Override
+			public void actionPerformed(ActionEvent e) { // 이 부분으로 콜백해줌
+				notifyUserList(GroupType.가족);
+			}
+
+		});
+
+		scButton.addActionListener(new ActionListener() { // 타겟
+
+			@Override
+			public void actionPerformed(ActionEvent e) { // 이 부분으로 콜백해줌
+				notifyUserList(GroupType.학교);
+			}
+
+		});
+
+		homeButton.addActionListener(new ActionListener() { // 타겟
+
+			@Override
+			public void actionPerformed(ActionEvent e) { // 이 부분으로 콜백해줌
+				notifyUserList();
+			}
+
+		});
+
 		userList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				System.out.println(userList.getSelectedValue()); // 현재 선택된 항목이 어떤것인지 알려줌
-//				System.out.println(userList.getSelectedIndex()); // 현재 선택된 항목의 번호를 알려줌
+				// System.out.println(userList.getSelectedValue()); // 현재 선택된 항목이 어떤것인지 알려줌
+				// System.out.println(userList.getSelectedIndex()); // 현재 선택된 항목의 번호를 알려줌
 				int memberId = MyStringParser.getId(userList.getSelectedValue().toString());
 				new DetailFrame(mainFrame, memberId);
+				mainFrame.setVisible(false); // 안보이게 설정
 			}
 		});
 
@@ -136,12 +183,25 @@ public class MainFrame extends JFrame {
 		});
 	}
 
+	// 전체 데이터 갱신
 	public void notifyUserList() {
 		// 1. listModel 비우기
 		listModel.clear(); // repaint까지 다 내장되어있음
-		
+
 		// 2. select해서 전체목록 가져와서 List<Member>에 담기
 		// 3. listModel 채워주기 (userList 자동갱신)
 		initData();
+	}
+
+	// 그룹 데이터 갱신 (오버로딩)
+	public void notifyUserList(GroupType groupType) {
+		// 1. listModel 비우기
+		listModel.clear(); // repaint까지 다 내장되어있음
+		List<Member> members = memberService.그룹목록(groupType);
+		for (Member member : members) {
+			listModel.addElement(member);
+		}
+		// 2. select해서 전체목록 가져와서 List<Member>에 담기
+		// 3. listModel 채워주기 (userList 자동갱신)
 	}
 }

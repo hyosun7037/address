@@ -22,7 +22,7 @@ public class Member {
 
 	@Override
 	public String toString() {
-		return id + ". " + name;
+		return id + ". " + name; // 이 형식으로 출력되도록 함, object가 가지고 있는 메서드
 	}
 
 	// 더미데이터 생성자
